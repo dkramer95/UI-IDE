@@ -9,63 +9,45 @@ import javax.swing.JComponent;
 import lib.UIElement;
 
 public class HTMLElement extends UIElement {
-
-	protected JComponent m_component;
+	protected String m_tagName;
 	
-	//Constructor
-	public HTMLElement(JComponent comp) {
-		m_component = comp;
-		m_component.setLayout(null);
+	public HTMLElement(String tagName) {
+		m_tagName = tagName;
+		init();
 	}
 	
 	protected void init() {
-		setWidth(50);
+		setWidth(100);
 		setHeight(25);
-		setText("Test");
-	}
-	
-	public void setLocation(Point p) {
-		super.setLocation(p);
-		m_component.setLocation(p);
-	}
-	
-	public boolean contains(Point p) {
-		return m_component.getBounds().contains(p);
-	}
-	
-	public void setX(int x) {
-		setLocation(x, getLocation().y);
-		m_component.setLocation(getLocation());
-	}
-
-	public void setY(int y) {
-		setLocation(getLocation().x, y);
-		m_component.setLocation(getLocation());
-	}
-	
-	public void setWidth(int width) {
-		setSize(width, getHeight());
-		m_component.setSize(getSize());
-	}
-	
-	public void setHeight(int height) {
-		setSize(getWidth(), height);
-		m_component.setSize(getSize());
+		setText("I am an html element");
 	}
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.draw(m_component.getBounds());
-		g.translate(getX(), getY());
-		m_component.paint(g);
-		g.translate(-getX(),-getY());
+		g.drawString(getText(), getX(), getY());
+		g.draw(getBounds());
 	}
 
 	@Override
 	public String generateSourceCode() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<" + m_tagName + " ");
+		
+		int width = getWidth();
+		sb.append("width=" + width + " ");
+		
+		int height = getHeight();
+		sb.append("height=" + height + " ");
+		
+		int x = getX();
+		sb.append("x=" + x + " ");
+		
+		sb.append("/>");
+		
+		System.out.println("BUILD SOURCE CODE: " + sb.toString());
+		
 		// TODO Auto-generated method stub
-		return null;
+		return sb.toString();
 	}
 
 }

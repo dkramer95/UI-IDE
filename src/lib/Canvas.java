@@ -54,6 +54,10 @@ public class Canvas extends JPanel {
 		}
 	}
 	
+	public ArrayList<UIElement> getUIElements() {
+		return m_elements;
+	}
+	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g.create();
 		g2d.clearRect(0, 0, getWidth(), getHeight());

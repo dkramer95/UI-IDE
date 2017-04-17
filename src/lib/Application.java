@@ -52,12 +52,25 @@ public class Application extends JFrame {
 				add(button);
 				m_elementButtons.add(button);
 			}
+			
+			JButton buildButton = new JButton("Build");
+			buildButton.addActionListener(e -> {
+				build();
+			});
+			add(buildButton);
 		}
 		
 		protected void elementButtonClicked(JButton button) {
 			m_activeElementButton = button;
 			addElement(button.getText());
 		}
+	}
+	
+	protected void build() {
+		ArrayList<UIElement> elements = m_canvas.getUIElements();
+		elements.forEach(e -> {
+			e.generateSourceCode();
+		});
 	}
 	
 	public void addElement(String type) {
