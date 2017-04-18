@@ -68,11 +68,11 @@ public class Application extends JFrame {
 	
 	protected void build() {
 		ArrayList<UIElement> elements = m_canvas.getUIElements();
-		ElementWriter typewriter = elementFactory.getWriter();
+		ElementWriter writer = elementFactory.getWriter();
 		elements.forEach(e -> {
-			typewriter.addLine(e.generateSourceCode());
+			writer.addLine(e.generateSourceCode());
 		});
-		typewriter.writeFile("HTMLOutput"+typewriter.getExtension());
+		writer.writeFile("HTMLOutput"+writer.getExtension());
 	}
 	
 	public void addElement(String type) {

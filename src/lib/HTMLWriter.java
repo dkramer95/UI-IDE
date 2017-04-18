@@ -14,6 +14,7 @@ public class HTMLWriter extends ElementWriter{
 		text.add("<body>");
 	}
 	
+	@Override
 	public void writeFile(String filename) {
 		text.add("</body>");
 		text.add("</html>");
