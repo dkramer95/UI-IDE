@@ -3,6 +3,7 @@ package lib;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,10 @@ public abstract class ElementWriter {
 		
 		try(FileWriter fw = new FileWriter(filename);
 				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)
 			) {	
 			for(String line : text) {
-				bw.append(line);
+				out.println(line);
 			}
 			
 		} catch (IOException e) {
