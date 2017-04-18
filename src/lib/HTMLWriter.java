@@ -28,20 +28,28 @@ public class HTMLWriter {
 		HTMLText.add("</html>");
 	}
 	
-	private String[] parseStringToHTML(String[] lines) {
-		String[] HTMLString = null;
-			
-		
-		
-		return HTMLString;
+	public void parseHTMLButton(String line) {
+		//HTMLText.add("<Button "+ > " + )
 	}
 	
-	private void writeHTMLFile(String[] lines) {
+	public void parseHTMLLabel() {
+		
+	}
+	
+	public void parseHTMLCheckBox() {
+		
+	}
+	
+	public void parseHTMLTextBox() {
+		
+	}
+	
+	private void writeHTMLFile() {
 		try(FileWriter fw = new FileWriter("HTMLOutput.html", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw))
 			{
-				for (String line : lines) {
+				for (String line : HTMLText) {
 					out.println(line);
 				}
 					
