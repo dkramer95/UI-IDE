@@ -23,7 +23,7 @@ public class JUIElement extends UIElement {
 	
 	protected void init() {
 		// default starting size
-		setWidth(50);
+		setWidth(100);
 		setHeight(25);
 		setText("Test");
 	}
