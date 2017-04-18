@@ -1,6 +1,8 @@
 package client;
 
 import lib.AbstractUIElementFactory;
+import lib.ElementWriter;
+import lib.HTMLWriter;
 import lib.UIElement;
 
 public class HTMLElementFactory extends AbstractUIElementFactory {
@@ -21,6 +23,11 @@ public class HTMLElementFactory extends AbstractUIElementFactory {
 	@Override
 	public String[] getSupportedElements() {
 		return new String[] { "h1", "h2", "h3" };
+	}
+
+	@Override
+	public ElementWriter getWriter() {
+		return new HTMLWriter();
 	}
 
 }

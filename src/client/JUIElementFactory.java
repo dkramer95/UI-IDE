@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import lib.AbstractUIElementFactory;
+import lib.ElementWriter;
 import lib.UIElement;
 
 public class JUIElementFactory extends AbstractUIElementFactory {
@@ -30,4 +31,11 @@ public class JUIElementFactory extends AbstractUIElementFactory {
 		return new String[] { "JLabel", "JButton", "JTextField", "JCheckBox" };
 	}
 
+	@Override
+	public ElementWriter getWriter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

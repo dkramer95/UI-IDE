@@ -33,17 +33,19 @@ public class HTMLElement extends UIElement {
 	public String generateSourceCode() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<" + m_tagName + " ");
-		
+		sb.append(" style=\"position: absolute;");
 		int width = getWidth();
-		sb.append("width=" + width + " ");
+		sb.append("width=" + width + "px;");
 		
 		int height = getHeight();
-		sb.append("height=" + height + " ");
+		sb.append("height=" + height + "px;");
 		
 		int x = getX();
-		sb.append("x=" + x + " ");
+		sb.append("left=" + x + "px;");
+		int y = getY();
+		sb.append("top="+ y + "px;\"");
 		
-		sb.append("/>");
+		sb.append(">" + getText() + "</" + m_tagName + ">");
 		
 		System.out.println("BUILD SOURCE CODE: " + sb.toString());
 		
