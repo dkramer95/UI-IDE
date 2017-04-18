@@ -58,7 +58,6 @@ public class JUIElement extends UIElement {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
 		g.draw(m_component.getBounds());
 		g.translate(getX(), getY());
 		m_component.paint(g);
