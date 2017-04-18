@@ -1,10 +1,7 @@
 package client;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
-import javax.swing.JComponent;
 
 import lib.UIElement;
 
@@ -26,6 +23,10 @@ public class HTMLElement extends UIElement {
 	public void draw(Graphics2D g) {
 		g.drawString(getText(), getX(), getY());
 		g.draw(getBounds());
+	}
+	
+	public boolean contains(Point p) {
+		return getBounds().contains(p);
 	}
 
 	@Override
