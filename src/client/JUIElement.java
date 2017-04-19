@@ -28,7 +28,7 @@ public class JUIElement extends UIElement {
 		// default starting size
 		setWidth(100);
 		setHeight(25);
-		setText("Test");
+		setText(m_component.getClass().getSimpleName());
 	}
 	
 	public void setLocation(Point p) {
@@ -85,11 +85,37 @@ public class JUIElement extends UIElement {
 			textField.setText(text);
 		}
 	}
+	
+	// to allow us to create unique varnames
+	protected static int elementCounter = 1;
 
 	@Override
 	public String generateSourceCode() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		
+		// object instantiation
+		String className = m_component.getClass().getSimpleName();
+		String varName = className.toLowerCase() + elementCounter;
+		sb.append(String.format("%s %s = new %s();\n", className, varName, className));
+		
+		// attributes
+		sb.append(String.format("%s.setSize(%d, %d);\n", varName, getWidth(), getHeight()));
+		sb.append(String.format("%s.setLocation(%d, %d);\n", varName, getX(), getY()));
+		sb.append(String.format("%s.setBackground(%s);\n", varName, getColor()));
+		sb.append(String.format("%s.setText(\"%s\");\n", varName, getText()));
+		
+		// this is fragile and will break if JavaWriter is changed, but it will work for now
+		sb.append(String.format("%s.setBounds(%s.getX(), %s.getY(), %s.getWidth(), "
+				+ "%s.getHeight());", varName, varName, varName, varName, varName));
+		sb.append(String.format("%s.add(%s);", "mainPanel", varName));
+		sb.append(String.format("%s.add(%s);", "elements", varName));
+		sb.append("\n");
+		
+		
+		// very important to increment, to prevent duplicate varnames in output!!
+		++elementCounter;
+
+		return sb.toString();
 	}
 
 }

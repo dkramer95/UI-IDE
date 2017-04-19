@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ElementWriter {
-	public List<String> text = new ArrayList();
+	public List<String> text = new ArrayList<>();
 	
 	public void addLine(String line) {
 		text.add(line);
