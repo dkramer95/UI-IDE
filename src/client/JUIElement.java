@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -80,9 +81,12 @@ public class JUIElement extends UIElement {
 		} else if (m_component instanceof JLabel) {
 			JLabel label = (JLabel)m_component;
 			label.setText(text);
-		}else if (m_component instanceof JTextField) {
+		} else if (m_component instanceof JTextField) {
 			JTextField textField = (JTextField)m_component;
 			textField.setText(text);
+		} else if (m_component instanceof JCheckBox) {
+			JCheckBox checkBox = (JCheckBox)m_component;
+			checkBox.setText(text);
 		}
 	}
 	
@@ -103,14 +107,13 @@ public class JUIElement extends UIElement {
 		sb.append(String.format("%s.setLocation(%d, %d);\n", varName, getX(), getY()));
 		sb.append(String.format("%s.setBackground(%s);\n", varName, getColor()));
 		sb.append(String.format("%s.setText(\"%s\");\n", varName, getText()));
-		
-		// this is fragile and will break if JavaWriter is changed, but it will work for now
 		sb.append(String.format("%s.setBounds(%s.getX(), %s.getY(), %s.getWidth(), "
 				+ "%s.getHeight());", varName, varName, varName, varName, varName));
+		
+		// this is fragile and will break if JavaWriter is changed, but it will work for now
 		sb.append(String.format("%s.add(%s);", "mainPanel", varName));
 		sb.append(String.format("%s.add(%s);", "elements", varName));
 		sb.append("\n");
-		
 		
 		// very important to increment, to prevent duplicate varnames in output!!
 		++elementCounter;

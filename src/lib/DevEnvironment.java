@@ -25,25 +25,30 @@ public class DevEnvironment {
 //		System.out.println("Main done");
 	}
 
-	public static void executeCommand(String command, boolean wait) throws Exception {
+	public static String executeCommand(String command, boolean wait) throws Exception {
 		//Source: http://stackoverflow.com/questions/4842684/how-to-compile-run-java-program-in-another-java-program
 		System.out.println(command);
 		Process pro = Runtime.getRuntime().exec(command);
+		String result = "";
 		if (wait)
 		{
-			printLines(command + " stdout:", pro.getInputStream());
+			result = printLines(command + " stdout:", pro.getInputStream());
 			printLines(command + " stderr:", pro.getErrorStream());
 			pro.waitFor();
 			System.out.println(command + " exitValue() " + pro.exitValue());
 		}
+		return result;
 	}
 
-	private static void printLines(String name, InputStream ins) throws Exception {
+	private static String printLines(String name, InputStream ins) throws Exception {
+		StringBuilder sb = new StringBuilder();
 		String line = null;
 		BufferedReader in = new BufferedReader(new InputStreamReader(ins));
 		while ((line = in.readLine()) != null) {
+			sb.append(line);
 			System.out.println(name + " " + line);
 		}
+		return sb.toString();
 	}
 
 	
