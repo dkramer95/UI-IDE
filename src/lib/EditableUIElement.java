@@ -104,6 +104,14 @@ public class EditableUIElement extends UIElement {
 	public void setSelected(boolean isSelected) {
 		m_isSelected = isSelected;
 	}
+	
+	public void setText(String text) {
+		m_element.setText(text);
+	}
+	
+	public void setColor(Color color) {
+		m_element.setColor(color);
+	}
 
 	public String generateSourceCode() {
 		return m_element.generateSourceCode();

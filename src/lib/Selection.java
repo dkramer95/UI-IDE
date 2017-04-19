@@ -1,5 +1,6 @@
 package lib;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -45,6 +46,14 @@ public class Selection {
 		return result;
 	}
 	
+	public ArrayList<UIElement> getElements() {
+		ArrayList<UIElement> elements = new ArrayList<>();
+		m_elements.forEach(e -> {
+			elements.add(e.getWrappedElement());
+		});
+		return elements;
+	}
+	
 	public boolean hasInitialDragPoint() {
 		boolean result = (m_dragStartPt != null);
 		return result;
@@ -69,6 +78,12 @@ public class Selection {
 		for (int j = 0; j < m_elements.size(); ++j) {
 			EditableUIElement e = m_elements.get(j);
 			e.setStartResizePt(null);
+		}
+	}
+	
+	public void setText(String text) {
+		for(UIElement e : m_elements) {
+			e.setText(text);
 		}
 	}
 	
@@ -124,6 +139,12 @@ public class Selection {
 	public void draw(Graphics2D g) {
 		m_elements.forEach(e -> {
 			e.draw(g);
+		});
+	}
+
+	public void setColor(Color color) {
+		m_elements.forEach(e -> {
+			e.setColor(color);
 		});
 	}
 }

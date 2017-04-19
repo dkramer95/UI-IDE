@@ -1,5 +1,6 @@
 package lib;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -7,7 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel implements MouseListener, MouseMotionListener {
@@ -36,9 +39,27 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		g2d.dispose();
 	}
 	
+	public void updateSelectionText(String text) {
+		m_selection.setText(text);
+		repaint();
+	}
+	
+	public Selection getSelection() {
+		return m_selection;
+	}
+	
 	public void addUIElement(UIElement element) {
+		element.setLocation(getRandomPoint(getWidth() - element.getWidth(), getHeight() - element.getHeight()));
 		m_elements.add(element);
 		repaint();
+	}
+	
+	public Point getRandomPoint(int maxX, int maxY) {
+		Random rng = new Random();
+		int x = rng.nextInt(maxX);
+		int y = rng.nextInt(maxY);
+		Point p = new Point(x, y);
+		return p;
 	}
 	
 	public ArrayList<UIElement> getUIElements() {
@@ -88,9 +109,24 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		}
 		return didClickElements;
 	}
+	
+	public void deleteSelection() {
+		m_selection.getElements().forEach(el -> {
+			m_elements.remove(el);
+		});
+		m_selection.clear();
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) { 
+		m_selection.clear();
+		
+		if (checkSelection(e.getPoint(), false)) {
+			if (e.getClickCount() == 2) {
+				Color c = JColorChooser.showDialog(this, "Choose Color", Color.RED);
+				getSelection().setColor(c);
+			}
+		}
 		checkSelection(e.getPoint(), false);
 		repaint();
 	}
@@ -106,4 +142,5 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseExited(MouseEvent e) { }
+
 }
