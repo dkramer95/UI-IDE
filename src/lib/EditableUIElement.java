@@ -59,12 +59,19 @@ public class EditableUIElement extends UIElement {
 
 			switch (resizeDirection) {
 			case BoundingBox.RESIZE_NORTH_WEST:
-			case BoundingBox.RESIZE_SOUTH_WEST:
 				newX = p.x;
 				newY = p.y;
-				newWidth = (m_startBounds.width + Math.abs(m_startBounds.x - p.x));
+				newWidth = (m_startBounds.width + m_startBounds.x - p.x);
+				break;
+			case BoundingBox.RESIZE_SOUTH_WEST:
+				newX = p.x;
+				newY = p.y - m_startBounds.height;
+				newWidth = (m_startBounds.width + m_startBounds.x - p.x);
 				break;
 			case BoundingBox.RESIZE_NORTH_EAST:
+				newWidth = (m_startBounds.width + dx);
+				newHeight = (m_startBounds.height + dy);
+				break;
 			case BoundingBox.RESIZE_SOUTH_EAST:
 				newWidth = (m_startBounds.width + dx);
 				newHeight = (m_startBounds.height + dy);
