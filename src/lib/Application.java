@@ -2,26 +2,35 @@ package lib;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import client.JUIElementFactory;
+
 public class Application extends JFrame {
 
 	protected static AbstractUIElementFactory elementFactory;
+	protected static AbstractUIElementFactory elementFactory2;
 	protected Canvas m_canvas;
 	protected JComponent m_sidebar;
 	protected JComponent m_textPanel;
+	protected JLabel label;
 	
 	public Application(AbstractUIElementFactory factory) {
 		elementFactory = factory;
+		elementFactory2 = new JUIElementFactory();
 	}
 	
 	public void start() {
@@ -46,6 +55,10 @@ public class Application extends JFrame {
 		protected void loadElements() {
 			m_elementButtons = new ArrayList<>();
 			String[] elementTypes = elementFactory.getSupportedElements();
+			
+			label = new JLabel("HTML");
+			label.setForeground(Color.WHITE);
+			add(label);
 
 			for(String s : elementTypes) {
 				JButton button = new JButton(s);
@@ -63,12 +76,24 @@ public class Application extends JFrame {
 			});
 			add(buildButton);
 			
+			JButton switchButton = new JButton("Switch");
+			switchButton.addActionListener(e -> {
+				switchJ(elementFactory2);
+			});
+			add(switchButton);
+			
 			JButton deleteButton = new JButton("Delete");
 			deleteButton.addActionListener(e -> {
 				m_canvas.deleteSelection();
 				m_canvas.repaint();
 			});
 			add(deleteButton);
+			
+			JButton runButton = new JButton("Run");
+			runButton.addActionListener(e -> {
+				runButton();
+			});
+			add(runButton);
 		}
 		
 		protected void elementButtonClicked(JButton button) {
@@ -93,6 +118,25 @@ public class Application extends JFrame {
 			writer.addLine(e.generateSourceCode());
 		});
 		writer.writeFile("HTMLOutput"+writer.getExtension());
+	}
+	
+	protected void switchJ(AbstractUIElementFactory factory) {
+		elementFactory2 = elementFactory;
+		elementFactory = factory;
+		//TODO replace the Java String with bottom text
+		//elementFactory.getWriter().getExtension()
+		label.setText("Java");
+		m_canvas.repaint();	
+		
+	}
+	
+	protected void runButton() {
+		try {
+			executeCommand("rundll32 url.dll,FileProtocolHandler \"HTMLOutput.html\"", false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 	
 	public void addElement(String type) {
@@ -145,6 +189,27 @@ public class Application extends JFrame {
 			}
 		});	
 		return textField;
-	}	
+	}
 	
+	private void executeCommand(String command, boolean wait) throws Exception {
+		//Source: http://stackoverflow.com/questions/4842684/how-to-compile-run-java-program-in-another-java-program
+		System.out.println(command);
+		Process pro = Runtime.getRuntime().exec(command);
+		if (wait)
+		{
+			printLines(command + " stdout:", pro.getInputStream());
+			printLines(command + " stderr:", pro.getErrorStream());
+			pro.waitFor();
+			System.out.println(command + " exitValue() " + pro.exitValue());
+		}
+	}
+
+	private static void printLines(String name, InputStream ins) throws Exception {
+		String line = null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(ins));
+		while ((line = in.readLine()) != null) {
+			System.out.println(name + " " + line);
+		}
+	}
+
 }
