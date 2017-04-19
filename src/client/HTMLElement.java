@@ -1,14 +1,18 @@
 package client;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 
-import lib.UIElement;
+import javax.swing.JLabel;
 
-public class HTMLElement extends UIElement {
+public class HTMLElement extends JUIElement {
 	protected String m_tagName;
 	
+	
 	public HTMLElement(String tagName) {
+		super(new JLabel());
 		m_tagName = tagName;
 		init();
 	}
@@ -19,14 +23,11 @@ public class HTMLElement extends UIElement {
 		setText("I am an html element");
 	}
 	
-	@Override
-	public void draw(Graphics2D g) {
-		g.drawString(getText(), getX(), getY());
-		g.draw(getBounds());
-	}
-	
-	public boolean contains(Point p) {
-		return getBounds().contains(p);
+	public Rectangle getStringBounds(Graphics2D g2d) {
+		FontRenderContext frc = g2d.getFontRenderContext();
+		GlyphVector gv = g2d.getFont().createGlyphVector(frc, getText());
+		Rectangle r = gv.getPixelBounds(null, getX(), getY());
+		return r;
 	}
 
 	@Override

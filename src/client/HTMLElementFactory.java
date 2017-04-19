@@ -16,13 +16,15 @@ public class HTMLElementFactory extends AbstractUIElementFactory {
 			return new HTMLElement("h2");
 		case "h3":
 			return new HTMLElement("h3");
+		case "button":
+			return new HTMLElement("button");
 		}
 		return null;
 	}
 
 	@Override
 	public String[] getSupportedElements() {
-		return new String[] { "h1", "h2", "h3" };
+		return new String[] { "h1", "h2", "h3", "button"};
 	}
 
 	@Override

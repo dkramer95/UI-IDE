@@ -1,6 +1,5 @@
 package client;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -14,6 +13,10 @@ import lib.UIElement;
 public class JUIElement extends UIElement {
 	// underlying java component that we're wrapping
 	protected JComponent m_component;
+	
+	protected JUIElement() { 
+		
+	}
 	
 	public JUIElement(JComponent comp) {
 		m_component = comp;
