@@ -53,16 +53,12 @@ public class Application extends JFrame {
 		elements.forEach(e -> {
 			writer.addLine(e.generateSourceCode());
 		});
-		writer.writeFile("Output" + writer.getExtension());
+		writer.writeFile(writer.getFileName() + writer.getExtension());
 	}
 	
 	protected void runButton() {
-		try {
-			DevEnvironment.executeCommand("rundll32 url.dll,FileProtocolHandler \"HTMLOutput.html\"", false);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		ElementWriter writer = elementFactory.getWriter();
+		writer.run();
 	}
 	
 	public void addElement(String type) {

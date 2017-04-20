@@ -1,5 +1,6 @@
 package client;
 
+import lib.DevEnvironment;
 import lib.ElementWriter;
 
 public class HTMLWriter extends ElementWriter{
@@ -24,6 +25,15 @@ public class HTMLWriter extends ElementWriter{
 		text.add("<body class=\"relative\">");
 	}
 	
+	public void run() {
+		try {
+			DevEnvironment.executeCommand(String.format("rundll32 url.dll,FileProtocolHandler \"%s\"", getFileName()+getExtension()), false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
 	public void addStyle(String line){
 		
 	}
@@ -38,5 +48,10 @@ public class HTMLWriter extends ElementWriter{
 	@Override
 	public String getExtension() {
 		return ".html";
+	}
+
+	@Override
+	public String getFileName() {
+		return "HTMLOutput";
 	}
 }
