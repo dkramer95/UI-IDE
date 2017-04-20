@@ -11,10 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import client.LanguageElementFactory;
-
 public class Application extends JFrame {
-	public static LanguageElementFactory languageFactory;
+	public static AbstractLanguageElementFactory languageFactory;
 	protected static AbstractUIElementFactory elementFactory;
 
 	protected Canvas m_canvas;
@@ -22,7 +20,7 @@ public class Application extends JFrame {
 	protected JComponent m_textPanel;
 	protected JLabel label;
 	
-	public Application(LanguageElementFactory factory) {
+	public Application(AbstractLanguageElementFactory factory) {
 		languageFactory = factory;
 		
 		// default to the first language in the factory

@@ -1,8 +1,9 @@
 package client;
 
+import lib.AbstractLanguageElementFactory;
 import lib.AbstractUIElementFactory;
 
-public class LanguageElementFactory {
+public class LanguageElementFactory extends AbstractLanguageElementFactory {
 
 	public AbstractUIElementFactory create(String type) {
 		switch (type) {

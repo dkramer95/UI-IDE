@@ -108,11 +108,11 @@ public class JUIElement extends UIElement {
 		sb.append(String.format("%s.setBackground(%s);\n", varName, getColor()));
 		sb.append(String.format("%s.setText(\"%s\");\n", varName, getText()));
 		sb.append(String.format("%s.setBounds(%s.getX(), %s.getY(), %s.getWidth(), "
-				+ "%s.getHeight());", varName, varName, varName, varName, varName));
+				+ "%s.getHeight());\n", varName, varName, varName, varName, varName));
 		
 		// this is fragile and will break if JavaWriter is changed, but it will work for now
-		sb.append(String.format("%s.add(%s);", "mainPanel", varName));
-		sb.append(String.format("%s.add(%s);", "elements", varName));
+		sb.append(String.format("%s.add(%s);\n", "mainPanel", varName));
+		sb.append(String.format("%s.add(%s);\n", "elements", varName));
 		sb.append("\n");
 		
 		// very important to increment, to prevent duplicate varnames in output!!
