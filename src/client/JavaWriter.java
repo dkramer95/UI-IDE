@@ -16,11 +16,9 @@ public class JavaWriter extends ElementWriter {
 		addLine("/** Automatically generated code **/\n\n");
 		addLine("import javax.swing.*;");
 		addLine("import java.util.ArrayList;");
-		addLine("import java.util.Timer;");
-		addLine("import java.util.TimerTask;");
 
 		// class name
-		addLine("public class Output {");
+		addLine(String.format("public class %s {", getFileName()));
 		
 		// main method
 		addLine("public static void main(String[] args) {");
@@ -36,10 +34,46 @@ public class JavaWriter extends ElementWriter {
 		addLine("window.setLocationRelativeTo(null);");
 		addLine("window.setTitle(\"GUI Output Demo\");");
 		addLine("window.setVisible(true);");
-		
-		// hack to make window repaint and show elements
-		addLine("Timer hackTimer = new Timer();");
-		addLine("hackTimer.schedule(new TimerTask() { public void run() { window.repaint(); } }, 2000);");
+	}
+	
+	public void run() {
+		String filename = getFileName();
+		Thread t = new Thread(() -> {
+			String os = System.getProperty("os.name").toLowerCase();
+			
+			try {
+				String runtimePath = os.contains("win") ? "\"C:\\Program Files\\Java\\jdk1.8.0_131\\bin\\java\"" :
+					DevEnvironment.executeCommand("which java", true);
+				DevEnvironment.executeCommand(runtimePath + " " + filename, true);
+				
+				System.out.println("Java application running!");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Failed to Run Java Application! :(");
+			}
+		});
+		t.start();
+	}
+	
+	public void Compile() {
+		String filename = getFileName() + getExtension();
+		Thread t = new Thread(() -> {
+			String os = System.getProperty("os.name").toLowerCase();
+			
+			try {
+				String compilerPath = os.contains("win") ? "\"C:\\Program Files\\Java\\jdk1.8.0_131\\bin\\javac.exe\"" :
+					DevEnvironment.executeCommand("which javac", true);
+				DevEnvironment.executeCommand(compilerPath + " " + filename, true);
+								
+				System.out.println("Java compiled successfully!");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Build failed! Update your Java to 8.131 :)");
+			}
+		});
+		t.start();
 	}
 
 	public void writeFile(String filename) {
@@ -48,36 +82,18 @@ public class JavaWriter extends ElementWriter {
 
 		// write the java file
 		super.writeFile(filename);
-		
-		Thread t = new Thread(() -> {
-			String os = System.getProperty("os.name").toLowerCase();
-			String compilerCommand = os.contains("win") ? "where javac" : "which javac";
-			String runCommand = os.contains("win") ? "where java" : "which java";
-			
-			try {
-				// compile the file
-				String compilerPath = DevEnvironment.executeCommand(compilerCommand, true);
-				DevEnvironment.executeCommand(compilerPath + " " + filename, true);
-				
-				String javaRuntimePath = DevEnvironment.executeCommand(runCommand, true);
-				String javaFile = filename.substring(0, filename.indexOf('.'));
-				DevEnvironment.executeCommand(javaRuntimePath + " " + javaFile, false);
-				
-				System.out.println("Java compiled successfully!");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Build failed! You probably have an "
-						+ "incorrect path somewhere.. Maybe lines 54 / 55 of JavaWriter!?? "
-						+ "Replace this with your path to make it work!! :)");
-			}
-		});
-		t.start();
+		Compile();
+
 	}
 
 	@Override
 	public String getExtension() {
 		return ".java";
+	}
+
+	@Override
+	public String getFileName() {
+		return "Output";
 	}
 
 }

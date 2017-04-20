@@ -31,4 +31,8 @@ public abstract class ElementWriter {
 	}
 	
 	public abstract String getExtension();
+	
+	public abstract void run();
+	
+	public abstract String getFileName();
 }

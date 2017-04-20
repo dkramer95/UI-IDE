@@ -34,7 +34,7 @@ public class HTMLElement extends JUIElement {
 	public String generateSourceCode() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<" + m_tagName + " ");
-		sb.append(" style=\"position: relative;float=left;margin=0 1.5%;");
+		sb.append("class=\"absolute\" style=\"margin=0 1.5%;");
 		int width = getWidth();
 		sb.append("width=" + width + "px;");
 		
