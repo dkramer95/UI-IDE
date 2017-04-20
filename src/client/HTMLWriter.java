@@ -1,4 +1,6 @@
-package lib;
+package client;
+
+import lib.ElementWriter;
 
 public class HTMLWriter extends ElementWriter{
 	

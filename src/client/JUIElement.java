@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -28,7 +29,7 @@ public class JUIElement extends UIElement {
 		// default starting size
 		setWidth(100);
 		setHeight(25);
-		setText("Test");
+		setText(m_component.getClass().getSimpleName());
 	}
 	
 	public void setLocation(Point p) {
@@ -80,16 +81,44 @@ public class JUIElement extends UIElement {
 		} else if (m_component instanceof JLabel) {
 			JLabel label = (JLabel)m_component;
 			label.setText(text);
-		}else if (m_component instanceof JTextField) {
+		} else if (m_component instanceof JTextField) {
 			JTextField textField = (JTextField)m_component;
 			textField.setText(text);
+		} else if (m_component instanceof JCheckBox) {
+			JCheckBox checkBox = (JCheckBox)m_component;
+			checkBox.setText(text);
 		}
 	}
+	
+	// to allow us to create unique varnames
+	protected static int elementCounter = 1;
 
 	@Override
 	public String generateSourceCode() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		
+		// object instantiation
+		String className = m_component.getClass().getSimpleName();
+		String varName = className.toLowerCase() + elementCounter;
+		sb.append(String.format("%s %s = new %s();\n", className, varName, className));
+		
+		// attributes
+		sb.append(String.format("%s.setSize(%d, %d);\n", varName, getWidth(), getHeight()));
+		sb.append(String.format("%s.setLocation(%d, %d);\n", varName, getX(), getY()));
+		sb.append(String.format("%s.setBackground(%s);\n", varName, getColor()));
+		sb.append(String.format("%s.setText(\"%s\");\n", varName, getText()));
+		sb.append(String.format("%s.setBounds(%s.getX(), %s.getY(), %s.getWidth(), "
+				+ "%s.getHeight());", varName, varName, varName, varName, varName));
+		
+		// this is fragile and will break if JavaWriter is changed, but it will work for now
+		sb.append(String.format("%s.add(%s);", "mainPanel", varName));
+		sb.append(String.format("%s.add(%s);", "elements", varName));
+		sb.append("\n");
+		
+		// very important to increment, to prevent duplicate varnames in output!!
+		++elementCounter;
+
+		return sb.toString();
 	}
 
 }

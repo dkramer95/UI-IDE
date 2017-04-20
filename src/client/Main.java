@@ -5,7 +5,7 @@ import lib.Application;
 public class Main {
 
 	public static void main(String[] args) {
-		Application app = new Application(new HTMLElementFactory());
+		Application app = new Application(new JUIElementFactory());
 		app.start();
 	}
 }

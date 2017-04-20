@@ -2,7 +2,6 @@ package client;
 
 import lib.AbstractUIElementFactory;
 import lib.ElementWriter;
-import lib.HTMLWriter;
 import lib.UIElement;
 
 public class HTMLElementFactory extends AbstractUIElementFactory {

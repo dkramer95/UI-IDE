@@ -117,7 +117,7 @@ public class Application extends JFrame {
 		elements.forEach(e -> {
 			writer.addLine(e.generateSourceCode());
 		});
-		writer.writeFile("HTMLOutput"+writer.getExtension());
+		writer.writeFile("Output" + writer.getExtension());
 	}
 	
 	protected void switchJ(AbstractUIElementFactory factory) {

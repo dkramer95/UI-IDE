@@ -33,8 +33,7 @@ public class JUIElementFactory extends AbstractUIElementFactory {
 
 	@Override
 	public ElementWriter getWriter() {
-		// TODO Auto-generated method stub
-		return null;
+		return new JavaWriter();
 	}
 
 	
