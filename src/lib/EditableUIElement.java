@@ -21,8 +21,6 @@ public class EditableUIElement extends UIElement {
 	@Override
 	public void draw(Graphics2D g) {
 		m_element.draw(g);
-		g.setColor(Color.ORANGE);
-		g.draw(m_element.getBounds());
 		m_boundingBox.draw(g);
 	}
 	
@@ -44,55 +42,75 @@ public class EditableUIElement extends UIElement {
 		m_startBounds = getBounds();
 	}
 	
+	protected Point[] getResizePoints(Point curPt) {
+		Rectangle r = m_startBounds;
+		Point startPt = new Point(r.x, r.y);
+		Point endPt  = new Point(r.x + r.width, r.y + r.height);
+
+		// the new points to assign
+		Point newStartPt = (Point)startPt.clone();
+		Point newEndPt = (Point)endPt.clone();
+
+		int direction = getBoundingBox().getResizeDirection();
+
+		switch (direction) {
+		case BoundingBox.RESIZE_NORTH: 	 	// intentional fallthrough
+		case BoundingBox.RESIZE_NORTH_EAST:
+		case BoundingBox.RESIZE_NORTH_WEST:
+			if (curPt.y > endPt.y) {
+				newStartPt.y = endPt.y;
+				newEndPt.y = curPt.y;
+			} else {
+				newStartPt.y = curPt.y;
+			}
+			break;
+		case BoundingBox.RESIZE_SOUTH: 		// intentional fallthrough
+		case BoundingBox.RESIZE_SOUTH_EAST:
+		case BoundingBox.RESIZE_SOUTH_WEST:
+			if (curPt.y < startPt.y) {
+				newStartPt.y = curPt.y;
+				newEndPt.y = startPt.y;
+			} else {
+				newEndPt.y = curPt.y;
+			}
+			break;
+		}
+		switch (direction) {
+		case BoundingBox.RESIZE_EAST: 		// intentional fallthrough
+		case BoundingBox.RESIZE_NORTH_EAST:
+		case BoundingBox.RESIZE_SOUTH_EAST:
+			if (curPt.x < startPt.x) {
+				newEndPt.x = startPt.x;
+				newStartPt.x = curPt.x;
+			} else {
+				newEndPt.x = curPt.x;
+			}
+			break;
+		case BoundingBox.RESIZE_WEST: 		// intentional fallthrough
+		case BoundingBox.RESIZE_NORTH_WEST:
+		case BoundingBox.RESIZE_SOUTH_WEST:
+			if (curPt.x > endPt.x) {
+				newStartPt.x = endPt.x;
+				newEndPt.x = curPt.x;
+			} else {
+				newStartPt.x = curPt.x;
+			}
+		}
+		return new Point[] { newStartPt, newEndPt };
+	}
+	
 	public void handleResize(Point p) {
 		if (m_startBounds != null) {
-			int dx = p.x - (m_startBounds.x + m_startBounds.width);
-			int dy = p.y - (m_startBounds.y + m_startBounds.height);
+			Point[] resizePts = getResizePoints(p);
+			Point newStartPt = resizePts[0];
+			Point newEndPt = resizePts[1];
 			
-			int newX = m_startBounds.x;
-			int newY = m_startBounds.y;
-			int newWidth = m_startBounds.width;
-			int newHeight = m_startBounds.height;
-			
-			// determine new (x,y) and width/height based on where we resized from
-			int resizeDirection = getBoundingBox().getResizeDirection();
-
-			switch (resizeDirection) {
-			case BoundingBox.RESIZE_NORTH_WEST:
-				newX = p.x;
-				newY = p.y;
-				newWidth = (m_startBounds.width + m_startBounds.x - p.x);
-				break;
-			case BoundingBox.RESIZE_SOUTH_WEST:
-				newX = p.x;
-				newY = p.y - m_startBounds.height;
-				newWidth = (m_startBounds.width + m_startBounds.x - p.x);
-				break;
-			case BoundingBox.RESIZE_NORTH_EAST:
-				newWidth = (m_startBounds.width + dx);
-				newHeight = (m_startBounds.height + dy);
-				break;
-			case BoundingBox.RESIZE_SOUTH_EAST:
-				newWidth = (m_startBounds.width + dx);
-				newHeight = (m_startBounds.height + dy);
-				break;
-			}
-			
-			if (newWidth < 0) {
-				newX = m_startBounds.x - Math.abs(newWidth);
-				newWidth = Math.abs(m_startBounds.x - newX);
-			}
-			if (newHeight < 0) {
-				newY = m_startBounds.y - Math.abs(newHeight);
-				newHeight = Math.abs(m_startBounds.y - newY);
-			}
-			m_element.setX(newX);
-			m_element.setY(newY);
-			m_element.setWidth(newWidth);
-			m_element.setHeight(newHeight);
-			m_boundingBox.update();
-			m_startBounds = getBounds();
+			m_element.setX(newStartPt.x);
+			m_element.setY(newStartPt.y);
+			m_element.setWidth(Math.abs(newEndPt.x - newStartPt.x));
+			m_element.setHeight(Math.abs(newEndPt.y - newStartPt.y));
 		}
+		m_boundingBox.update();
 	}
 	
 	public void setLocation(Point p) {

@@ -68,16 +68,16 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseDragged(MouseEvent e) { 
-		if (!m_selection.isEmpty()) {
-			Point p = e.getPoint();
-
-			if (m_selection.canResize(p)) {
-				m_selection.handleResize(p);
-			} else {
-				m_selection.handleMove(p);
-			}
-			repaint();
+		Point p = e.getPoint();
+		
+		if (m_selection.canResize(p)) {
+			m_selection.handleResize(p);
+		} else if (!m_selection.isEmpty()) {
+			m_selection.handleMove(p);
+		} else {
+			checkSelection(p, false);
 		}
+		repaint();
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	public boolean checkSelection(Point p, boolean removeIfSelected) {
 		boolean didClickElements = false;
 		
-		for(int j = 0; j < m_elements.size(); ++j) {
+		for(int j = m_elements.size() - 1; j >= 0; --j) {
 			UIElement el = m_elements.get(j);
 
 			// we clicked on an element
@@ -100,6 +100,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 				} else {
 					m_selection.add(el);
 				}
+				break;
 			}
 		}
 		

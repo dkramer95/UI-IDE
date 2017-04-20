@@ -4,13 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class BoundingBox extends Rectangle {
-	public static final int RESIZE_NORTH_WEST = 0;
-	public static final int RESIZE_NORTH_EAST = 1;
-	public static final int RESIZE_SOUTH_WEST = 2;
-	public static final int RESIZE_SOUTH_EAST = 3;
 	
+	// Constants for different resize handles
+	public static final int RESIZE_NORTH = 0;
+	public static final int RESIZE_SOUTH = 1;
+	public static final int RESIZE_EAST = 2;
+	public static final int RESIZE_WEST	 = 3;
+	public static final int RESIZE_NORTH_EAST = 4;
+	public static final int RESIZE_NORTH_WEST = 5;
+	public static final int RESIZE_SOUTH_EAST = 6;
+	public static final int RESIZE_SOUTH_WEST = 7;
 	
 	protected Rectangle[] m_resizeHandles;
 	protected UIElement m_element;
@@ -36,18 +42,19 @@ public class BoundingBox extends Rectangle {
 		r.x -= (size / 2);
 		r.y -= (size / 2);
 		
-		Rectangle topLeftHandle = new Rectangle(r.x, r.y, size, size);
-		Rectangle topRightHandle = new Rectangle(r.x + r.width, r.y, size, size);
-		Rectangle bottomLeftHandle = new Rectangle(r.x, r.y + r.height, size, size);
-		Rectangle bottomRightHandle = new Rectangle(r.x + r.width, r.y + r.height, size, size);
+		ArrayList<Rectangle> rectangles = new ArrayList<>();
 		
-		Rectangle[] resizeHandles = new Rectangle[4];
-		resizeHandles[0] = topLeftHandle;
-		resizeHandles[1] = topRightHandle;
-		resizeHandles[2] = bottomLeftHandle;
-		resizeHandles[3] = bottomRightHandle;
+		rectangles.add(new Rectangle(r.x + (r.width / 2), r.y, size, size)); // north
+		rectangles.add(new Rectangle(r.x + (r.width / 2), r.y + r.height, size, size)); // south
+		rectangles.add(new Rectangle(r.x + r.width, r.y + (r.height / 2), size, size)); // east
+		rectangles.add(new Rectangle(r.x, r.y + (r.height / 2), size, size)); // west
+		rectangles.add(new Rectangle(r.x + r.width, r.y, size, size)); // north east
+		rectangles.add(new Rectangle(r.x, r.y, size, size)); // north west 
+		rectangles.add(new Rectangle( new Rectangle(r.x + r.width, r.y + r.height, size, size))); // south east
+		rectangles.add(new Rectangle( new Rectangle(r.x, r.y + r.height, size, size))); // south west
 		
-		return resizeHandles;
+		Rectangle[] handles = new Rectangle[8];
+		return rectangles.toArray(handles);
 	}
 	
 	public boolean isHandleHovered(Point p) {
@@ -60,13 +67,6 @@ public class BoundingBox extends Rectangle {
 				m_resizeDirection = j;
 			}
 		}
-//
-//		for(Rectangle r : m_resizeHandles) {
-//			if (r.contains(p)) {
-//				result = true;
-//				break;
-//			}
-//		}
 		return result;
 	}
 	
