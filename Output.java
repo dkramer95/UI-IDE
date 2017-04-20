@@ -19,47 +19,40 @@ window.setTitle("GUI Output Demo");
 window.setVisible(true);
 Timer hackTimer = new Timer();
 hackTimer.schedule(new TimerTask() { public void run() { window.repaint(); } }, 2000);
-JCheckBox jcheckbox6 = new JCheckBox();
-jcheckbox6.setSize(168, 59);
-jcheckbox6.setLocation(255, 78);
-jcheckbox6.setBackground(null);
-jcheckbox6.setText("JCheckBox");
-jcheckbox6.setBounds(jcheckbox6.getX(), jcheckbox6.getY(), jcheckbox6.getWidth(), jcheckbox6.getHeight());mainPanel.add(jcheckbox6);elements.add(jcheckbox6);
+JLabel jlabel1 = new JLabel();
+jlabel1.setSize(100, 25);
+jlabel1.setLocation(42, 511);
+jlabel1.setBackground(null);
+jlabel1.setText("JLabel");
+jlabel1.setBounds(jlabel1.getX(), jlabel1.getY(), jlabel1.getWidth(), jlabel1.getHeight());mainPanel.add(jlabel1);elements.add(jlabel1);
 
-JTextField jtextfield7 = new JTextField();
-jtextfield7.setSize(158, 48);
-jtextfield7.setLocation(72, 104);
-jtextfield7.setBackground(null);
-jtextfield7.setText("Text");
-jtextfield7.setBounds(jtextfield7.getX(), jtextfield7.getY(), jtextfield7.getWidth(), jtextfield7.getHeight());mainPanel.add(jtextfield7);elements.add(jtextfield7);
+JLabel jlabel2 = new JLabel();
+jlabel2.setSize(100, 25);
+jlabel2.setLocation(366, 243);
+jlabel2.setBackground(null);
+jlabel2.setText("JLabel");
+jlabel2.setBounds(jlabel2.getX(), jlabel2.getY(), jlabel2.getWidth(), jlabel2.getHeight());mainPanel.add(jlabel2);elements.add(jlabel2);
 
-JButton jbutton8 = new JButton();
-jbutton8.setSize(147, 39);
-jbutton8.setLocation(332, 212);
-jbutton8.setBackground(null);
-jbutton8.setText("JButton");
-jbutton8.setBounds(jbutton8.getX(), jbutton8.getY(), jbutton8.getWidth(), jbutton8.getHeight());mainPanel.add(jbutton8);elements.add(jbutton8);
+JLabel jlabel3 = new JLabel();
+jlabel3.setSize(100, 25);
+jlabel3.setLocation(89, 395);
+jlabel3.setBackground(null);
+jlabel3.setText("JLabel");
+jlabel3.setBounds(jlabel3.getX(), jlabel3.getY(), jlabel3.getWidth(), jlabel3.getHeight());mainPanel.add(jlabel3);elements.add(jlabel3);
 
-JLabel jlabel9 = new JLabel();
-jlabel9.setSize(199, 66);
-jlabel9.setLocation(119, 188);
-jlabel9.setBackground(null);
-jlabel9.setText("MyLabel");
-jlabel9.setBounds(jlabel9.getX(), jlabel9.getY(), jlabel9.getWidth(), jlabel9.getHeight());mainPanel.add(jlabel9);elements.add(jlabel9);
+JLabel jlabel4 = new JLabel();
+jlabel4.setSize(100, 25);
+jlabel4.setLocation(99, 114);
+jlabel4.setBackground(null);
+jlabel4.setText("JLabel");
+jlabel4.setBounds(jlabel4.getX(), jlabel4.getY(), jlabel4.getWidth(), jlabel4.getHeight());mainPanel.add(jlabel4);elements.add(jlabel4);
 
-JButton jbutton10 = new JButton();
-jbutton10.setSize(100, 25);
-jbutton10.setLocation(90, 58);
-jbutton10.setBackground(null);
-jbutton10.setText("MyButton");
-jbutton10.setBounds(jbutton10.getX(), jbutton10.getY(), jbutton10.getWidth(), jbutton10.getHeight());mainPanel.add(jbutton10);elements.add(jbutton10);
-
-JTextField jtextfield11 = new JTextField();
-jtextfield11.setSize(100, 25);
-jtextfield11.setLocation(218, 302);
-jtextfield11.setBackground(null);
-jtextfield11.setText("JTextField");
-jtextfield11.setBounds(jtextfield11.getX(), jtextfield11.getY(), jtextfield11.getWidth(), jtextfield11.getHeight());mainPanel.add(jtextfield11);elements.add(jtextfield11);
+JLabel jlabel5 = new JLabel();
+jlabel5.setSize(100, 25);
+jlabel5.setLocation(392, 480);
+jlabel5.setBackground(null);
+jlabel5.setText("JLabel");
+jlabel5.setBounds(jlabel5.getX(), jlabel5.getY(), jlabel5.getWidth(), jlabel5.getHeight());mainPanel.add(jlabel5);elements.add(jlabel5);
 
 }
 }

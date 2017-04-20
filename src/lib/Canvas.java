@@ -54,6 +54,12 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		repaint();
 	}
 	
+	public void clear() {
+		m_elements.clear();
+		m_selection.clear();
+		repaint();
+	}
+	
 	public Point getRandomPoint(int maxX, int maxY) {
 		Random rng = new Random();
 		int x = rng.nextInt(maxX);
